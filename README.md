@@ -39,7 +39,9 @@ If you look at half the code I write, I'm guilty of not following a lot of these
 
 ## Update checklist
 - [ ] Re-check the initial release guidelines and update accordingly.
-- [ ] Changelog it
+- [ ] Search your code for any TODOs and delete the ones that don't apply anymore.
+- [ ] Similarly, close out any issues in your issue tracker that are fixed or no longer relevant.
+- [ ] Add changes to the CHANGELOG.
 - [ ] If you have contributions to your library from others, add them to a CONTRIBUTORS file
 - [ ] Update the version in your cabal file.
 - [ ] If you any libraries that build upon this library, ensure that they build, tests pass, and bump versions accordingly if any changes need to be made.
