@@ -4,6 +4,8 @@ Releasing quality code to the public is hard. There are a lot of i's to dot and 
 
 If you look at half the code I write, I'm guilty of not following a lot of these things. This is my way of trying to become publicly accountable for getting better! I challenge you to do the same!
 
+If there's anything missing, or you don't agree with something, contributions are welcome!
+
 ## Initial release checklist
 
 ### Code things
