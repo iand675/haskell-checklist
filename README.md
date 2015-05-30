@@ -20,7 +20,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Some code should explicitly not be extensible. Make sure that you explain why, and do your best to prevent it or at least provide cautionary warnings.
 - [ ] Is performance important? If yes, write some criterion benchmarks.
 - [ ] Does anything "algorithmic" or "data-structure-y" document it's big-O performance characteristics?
-- [ ] Turn on -Wall & -Werror
+- [ ] Turn on -Wall & -Werror. You can selectively disable any warnings with the `-fno-warn-` [family of flags](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/options-sanity.html).
 - [ ] Ensure that the code is consistently formatted to your taste & linted
 - [ ] Ensure that the code explicitly exports anything that should be publicly exposed
 - [ ] Ensure that your functions are total
