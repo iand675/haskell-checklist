@@ -31,7 +31,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Do you have CI set up for your project?
   - [ ] Does your CI run tests against all versions of GHC that your library claims to support (e.g. the version range for `base`)?
     - For Travis, there's [multi-ghc-travis](https://github.com/hvr/multi-ghc-travis) to simplify this.
-  - [ ] Consider enabling -Werror in test
+  - [ ] Consider enabling -Werror in test.
 - [ ] Do you have a README?
   - [ ] Does your README make the license obvious?
   - [ ] Does your README explain what the library does?
