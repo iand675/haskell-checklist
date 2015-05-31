@@ -61,6 +61,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 ## Ongoing maintenance checklist
 - [ ] Can the library be added to Stackage? You probably want to know when breaking changes in your dependencies necessitate a new release!
 - [ ] If there's a new release of GHC, does your code still compile with it?
+- [ ] Have any issues or pull requests passed under the radar? Are there any issues that you're realistically never going deal with? Triage accordingly.
 - [ ] If your code makes heavy use of the FFI, are you up-to-date with the latest release of the underlying C/C++/whatever libraries?
 - [ ] Are you not interested in the library anymore? Find a new maintainer.
 - [ ] Is the code obsolete for some reason? Deprecate it.
