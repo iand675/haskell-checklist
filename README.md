@@ -13,6 +13,8 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Do you have some documentation in each module?
   - [ ] Does your code have examples for anything that's not immediately obvious how to use for the uninitiated?
   - [ ] Does everything that throws an exception document what can be thrown?
+  - [ ] Ensure that there is a statement of the code's purpose or utility
+  - [ ] Ensure that there is an example of how typically to use it, not just an abstract description of the API signature
 - [ ] Do functions provide friendly interfaces to use?
   - [ ] If there are lots of values of the same type being passed around, consider using type synonyms or newtypes to disambiguate them.
   - [ ] Are your functions sufficiently general in their types, but not so general as to be incomprehensible?
@@ -20,7 +22,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Some code should explicitly not be extensible. Make sure that you explain why, and do your best to prevent it or at least provide cautionary warnings.
 - [ ] Is performance important? If yes, write some criterion benchmarks.
 - [ ] Does anything "algorithmic" or "data-structure-y" document it's big-O performance characteristics?
-- [ ] Turn on -Wall & -Werror. You can selectively disable any warnings with the `-fno-warn-` [family of flags](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/options-sanity.html).
+- [ ] Turn on -Wall. You can selectively disable any warnings with the `-fno-warn-` [family of flags](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/options-sanity.html).
 - [ ] Ensure that the code is consistently formatted to your taste & linted
 - [ ] Ensure that the code explicitly exports anything that should be publicly exposed
 - [ ] Ensure that your functions are total
@@ -29,6 +31,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Do you have CI set up for your project?
   - [ ] Does your CI run tests against all versions of GHC that your library claims to support (e.g. the version range for `base`)?
     - For Travis, there's [multi-ghc-travis](https://github.com/hvr/multi-ghc-travis) to simplify this.
+  - [ ] Consider enabling -Werror in test
 - [ ] Do you have a README?
   - [ ] Does your README make the license obvious?
   - [ ] Does your README explain what the library does?
@@ -45,6 +48,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Re-check the initial release guidelines and update accordingly.
 - [ ] Search your code for any TODOs and delete the ones that don't apply anymore.
 - [ ] Similarly, close out any issues in your issue tracker that are fixed or no longer relevant.
+- [ ] Are there any dependencies that need to be removed from the .cabal file?
 - [ ] Add changes to the CHANGELOG.
 - [ ] If you have contributions to your library from others, add them to a CONTRIBUTORS file
 - [ ] Update the version in your cabal file.
