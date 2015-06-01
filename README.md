@@ -13,8 +13,8 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Do you have some documentation in each module?
   - [ ] Does your code have examples for anything that's not immediately obvious how to use for the uninitiated?
   - [ ] Does everything that throws an exception document what can be thrown?
-  - [ ] Ensure that there is a statement of the code's purpose or utility
-  - [ ] Ensure that there is an example of how typically to use it, not just an abstract description of the API signature
+  - [ ] Ensure that there is a statement of the code's purpose or utility.
+  - [ ] Ensure that there is an example of how typically to use it, not just an abstract description of the API signature.
 - [ ] Do functions provide friendly interfaces to use?
   - [ ] If there are lots of values of the same type being passed around, consider using type synonyms or newtypes to disambiguate them.
   - [ ] Are your functions sufficiently general in their types, but not so general as to be incomprehensible?
