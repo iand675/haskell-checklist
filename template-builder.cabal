@@ -1,0 +1,24 @@
+name:                template-builder
+version:             0.0.0.1
+license:             BSD3
+license-file:        LICENSE
+stability:           experimental
+author:              Ian Duncan
+maintainer:          Ian Duncan <ian@iankduncan.com>
+homepage:            https://github.com/iand675/haskell-checklist
+bug-reports:         https://github.com/iand675/haskell-checklist/issues
+category:            Development
+copyright:           Copyrigh (C) 2016 Ian Duncan
+tested-with:         GHC == 7.10.3
+synopsis:            Cool synopsis here
+description:         Cool description here
+cabal-version:       >= 1.2
+
+executable template-builder
+  main-is:           Main.hs
+  hs-source-dirs:    src
+  build-depends:
+    base >= 4.5 && < 5,
+    shake,
+    bytestring
+

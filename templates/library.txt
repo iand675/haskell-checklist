@@ -1,0 +1,11 @@
+pieces/CHANGELOG.md
+pieces/README.md
+pieces/LICENSE
+pieces/{{name}}.cabal
+pieces/Setup.hs
+pieces/src/Library.hs
+pieces/src/Library/Tutorial.hs
+pieces/tests/doctests.hs
+pieces/tests/tests.hs
+pieces/benchmarks/bench.hs
+pieces/stack.yaml

@@ -1,0 +1,368 @@
+{-# START_FILE CHANGELOG.md #-}
+# Change Log
+
+This document records all notable changes to {{name}}. This project adheres to [Semantic Versioning](http://semver.org/).
+{-# START_FILE README.md #-}
+# {{name}}
+
+[![Hackage](https://img.shields.io/hackage/v/{{name}})](https://hackage.haskell.org/package/{{name}})
+[![Hackage deps](https://img.shields.io/hackage-deps/v/{{name}})](https://hackage.haskell.org/package/{{name}})
+[![{{name}} on Stackage LTS](http://stackage.org/package/packagename/badge/lts-3)](http://stackage.org/lts/package/{{name}})
+
+Summary
+
+## Install
+
+```
+stack install {{name}}
+```
+
+## Usage
+
+``` haskell
+putStrLn "Hello, World"
+```
+
+## Support
+
+## Contribute
+
+## Change Log
+
+See [CHANGELOG](blob/master/CHANGELOG.md)
+
+## License
+
+See [LICENSE](blob/master/LICENSE)
+
+{-# START_FILE LICENSE #-}
+Copyright (c) 2016, {{author-name}}
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+{-# START_FILE {{name}}.cabal #-}
+name:                {{name}}
+version:             0.0.0.1
+license:             BSD3
+license-file:        LICENSE
+stability:           experimental
+author:              {{author-name}}
+maintainer:          {{author-name}} <{{author-email}}>
+homepage:            https://github.com/{{github-username}}/{{name}}
+bug-reports:         https://github.com/{{github-username}}/{{name}}/issues
+category:            {{category}}
+copyright:           Copyrigh (C) 2016 {{author-name}}
+tested-with:         GHC == {{preferred-ghc-version}}
+synopsis:            Cool synopsis here
+description:         Cool description here
+cabal-version:       >= 1.8
+
+extra-source-files:
+  .gitignore
+  examples/LICENSE
+  examples/{{name}}-examples.cabal
+  examples/*.hs
+  images/*.png
+  HLint.hs
+  CHANGELOG.md
+  README.md
+  SUPPORT.md
+
+source-repository head
+  type: git
+  location: https://github.com/{{github-username}}/{{name}}.git
+
+library
+  build-depends:
+    base                  >= 4.5      && < 5,
+    text                  >= 0.11     && < 1.3,
+    bytestring            >= 0.9.1.10 && < 0.11,
+    containers            >= 0.4.0    && < 0.6,
+    hashable              >= 1.1.2.3  && < 1.3,
+    unordered-containers  >= 0.2.4    && < 0.3,
+    vector                >= 0.5      && < 1,
+    mtl                   >= 2.0.1    && < 2.3
+  exposed-modules:
+    Library,
+    Library.Tutorial
+  cpp-options: -traditional
+  ghc-options: -Wall -fwarn-tabs -O2 -fdicts-cheap -funbox-strict-fields -fmax-simplifier-iterations=10
+  hs-source-dirs: src
+
+test-suite tests
+  type:           exitcode-stdio-1.0
+  main-is:        tests.hs
+  ghc-options:    -Wall -threaded
+  hs-source-dirs: tests
+  build-depends:
+    base,
+    text,
+    bytestring,
+    containers,
+    hashable,
+    unordered-containers,
+    vector,
+    mtl,
+    tasty,
+    tasty-hunit,
+    tasty-discover
+
+test-suite doctests
+  type:           exitcode-stdio-1.0
+  main-is:        doctests.hs
+  ghc-options:    -Wall -threaded
+  hs-source-dirs: tests
+  build-depends:
+    base,
+    text,
+    bytestring,
+    containers,
+    hashable,
+    unordered-containers,
+    vector,
+    mtl,
+    doctest,
+    filepath,
+    directory
+
+benchmark bench
+  type:           exitcode-stdio-1.0
+  main-is:        bench.hs
+  ghc-options:    -Wall -O2 -threaded -fdicts-cheap -funbox-strict-fields
+  hs-source-dirs: benchmarks
+  build-depends:
+    base,
+    criterion,
+    deepseq,
+    mtl,
+    {{name}}
+
+{-# START_FILE Setup.hs #-}
+{-# OPTIONS_GHC -Wall #-}
+module Main (main) where
+import Data.List ( nub )
+import Data.Version ( showVersion )
+import Distribution.Package ( PackageName(PackageName), Package, PackageId, InstalledPackageId, packageVersion, packageName )
+import Distribution.PackageDescription ( PackageDescription(), TestSuite(..) )
+import Distribution.Simple ( defaultMainWithHooks, UserHooks(..), simpleUserHooks )
+import Distribution.Simple.Utils ( rewriteFile, createDirectoryIfMissingVerbose, copyFiles )
+import Distribution.Simple.BuildPaths ( autogenModulesDir )
+import Distribution.Simple.Setup ( BuildFlags(buildVerbosity), Flag(..), fromFlag)
+import Distribution.Simple.LocalBuildInfo ( withLibLBI, withTestLBI, LocalBuildInfo(), ComponentLocalBuildInfo(componentPackageDeps) )
+import Distribution.Text ( display )
+import Distribution.Verbosity ( Verbosity, normal )
+import System.FilePath ( (</>) )
+main :: IO ()
+main = defaultMainWithHooks simpleUserHooks
+  { buildHook = \pkg lbi hooks flags -> do
+     generateBuildModule (fromFlag (buildVerbosity flags)) pkg lbi
+     buildHook simpleUserHooks pkg lbi hooks flags
+  }
+
+generateBuildModule :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
+generateBuildModule verbosity pkg lbi = do
+  let dir = autogenModulesDir lbi
+  createDirectoryIfMissingVerbose verbosity True dir
+  withLibLBI pkg lbi $ \_ libcfg -> do
+    withTestLBI pkg lbi $ \suite suitecfg -> do
+      rewriteFile (dir </> "Build_" ++ testName suite ++ ".hs") $ unlines
+        [ "module Build_" ++ testName suite ++ " where"
+        , ""
+        , "autogen_dir :: String"
+        , "autogen_dir = " ++ show dir
+        , ""
+        , "deps :: [String]"
+        , "deps = " ++ (show $ formatdeps (testDeps libcfg suitecfg))
+        ]
+  where
+    formatdeps = map (formatone . snd)
+    formatone p = case packageName p of
+      PackageName n -> n ++ "-" ++ showVersion (packageVersion p)
+
+testDeps :: ComponentLocalBuildInfo -> ComponentLocalBuildInfo -> [(InstalledPackageId, PackageId)]
+testDeps xs ys = nub $ componentPackageDeps xs ++ componentPackageDeps ys
+{-# START_FILE src/Library.hs #-}
+{-|
+Module     : Library
+Description: Short description
+Copyright  : (c) 2016 {{author-name}}
+License    : BSD3
+
+Here is a longer description of this module.
+With some code symbol @MyType@.
+And also a block of code:
+
+@
+data MyData = C Int Int
+
+myFunction :: MyData -> Int
+@
+
+-}
+module Library where
+
+{-# START_FILE src/Library/Tutorial.hs #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
+{-|
+ Use @{{name}}@ if you want to ...
+-}
+module Library.Tutorial (
+
+  -- * Introduction
+  -- $introduction
+
+  -- ** Subsection
+  -- $subsection
+
+  ) where
+
+import Library
+
+{- $introduction
+
+So here how you use it:
+
+ >>> 1 + 1
+ 2
+
+The function is '(+)' and
+the you'll be able to click on it to go
+to its definition.
+
+You can add images: <<path-to-image.png title>>
+and links: <http://haskell-lang.org haskell>.
+
+-}
+
+{- $subsection
+
+This is a chuck of documentation
+not attached to any particular Haskell
+declaration with an untested code block:
+
+> answer = 42
+
+-}
+{-# START_FILE tests/doctests.hs #-}
+module Main where
+import Build_doctests (autogen_dir, deps)
+import Control.Monad
+import Data.List
+import System.Directory
+import System.FilePath
+import Test.DocTest
+
+main :: IO ()
+main = getSources >>= \sources -> doctest $
+    "-isrc"
+  : ("-i" ++ autogen_dir)
+  : "-optP-include"
+  : ("-optP" ++ autogen_dir ++ "/cabal_macros.h")
+  : "-hide-all-packages"
+  : map ("-package="++) deps ++ sources
+
+getSources :: IO [FilePath]
+getSources = filter (isSuffixOf ".hs") <$> go "src"
+  where
+    go dir = do
+      (dirs, files) <- getFilesAndDirectories dir
+      (files ++) . concat <$> mapM go dirs
+
+getFilesAndDirectories :: FilePath -> IO ([FilePath], [FilePath])
+getFilesAndDirectories dir = do
+  c <- map (dir </>) . filter (`notElem` ["..", "."]) <$> getDirectoryContents dir
+  (,) <$> filterM doesDirectoryExist c <*> filterM doesFileExist c
+{-# START_FILE tests/tests.hs #-}
+{-# OPTIONS_GHC -F -pgmF tasty-discover #-}
+{-# START_FILE benchmarks/bench.hs #-}
+module Main where
+import Criterion.Main
+
+doABarrelRoll :: [Int] -> Maybe Int
+doABarrelRoll []     = Nothing
+doABarrelRoll (x:xs) = Just x
+
+main :: IO ()
+main = defaultMain
+  [ bench "empty barrel roll" $ nf doABarrelRoll []
+  , bench "has some barrels" $ nf doABarrelRoll [1..10]
+  , bench "such roll" $ nf doABarrelRoll [1..]
+  ]
+{-# START_FILE stack.yaml #-}
+# This file was automatically generated by 'stack init'
+#
+# Some commonly used options have been documented as comments in this file.
+# For advanced use and comprehensive documentation of the format, please see:
+# http://docs.haskellstack.org/en/stable/yaml_configuration/
+
+# Resolver to choose a 'specific' stackage snapshot or a compiler version.
+# A snapshot resolver dictates the compiler version and the set of packages
+# to be used for project dependencies. For example:
+#
+# resolver: lts-3.5
+# resolver: nightly-2015-09-21
+# resolver: ghc-7.10.2
+# resolver: ghcjs-0.1.0_ghc-7.10.2
+# resolver:
+#  name: custom-snapshot
+#  location: "./custom-snapshot.yaml"
+resolver: lts-6.2
+
+# User packages to be built.
+# Various formats can be used as shown in the example below.
+#
+# packages:
+# - some-directory
+# - https://example.com/foo/bar/baz-0.0.2.tar.gz
+# - location:
+#    git: https://github.com/commercialhaskell/stack.git
+#    commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
+# - location: https://github.com/commercialhaskell/stack/commit/e7b331f14bcffb8367cd58fbfc8b40ec7642100a
+#   extra-dep: true
+#  subdirs:
+#  - auto-update
+#  - wai
+#
+# A package marked 'extra-dep: true' will only be built if demanded by a
+# non-dependency (i.e. a user package), and its test suites and benchmarks
+# will not be run. This is useful for tweaking upstream packages.
+packages:
+- '.'
+- location:
+    git: "https://github.com/lwm/tasty-discover.git"
+    commit: "HEAD"
+  extra-dep: true
+extra-deps:
+- "tasty-th-0.1.4"
+
+# Override default flag values for local packages and extra-deps
+flags: {}
+
+# Extra package databases containing global packages
+extra-package-dbs: []
+
+# Control whether we use the GHC we find on the path
+# system-ghc: true
+#
+# Require a specific version of stack, using version ranges
+# require-stack-version: -any # Default
+# require-stack-version: ">=1.1"
+#
+# Override the architecture used by stack, especially useful on Windows
+# arch: i386
+# arch: x86_64
+#
+# Extra directories used by stack for building
+# extra-include-dirs: [/path/to/dir]
+# extra-lib-dirs: [/path/to/dir]
+#
+# Allow a newer minor version of GHC than the snapshot specifies
+# compiler-check: newer-minor
