@@ -42,7 +42,6 @@ library
   exposed-modules:
     Library,
     Library.Tutorial
-  cpp-options: -traditional
   ghc-options: -Wall -fwarn-tabs -O2 -fdicts-cheap -funbox-strict-fields -fmax-simplifier-iterations=10
   hs-source-dirs: src
 
