@@ -13,6 +13,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Do you have some documentation in each module?
   - [ ] Does your code have examples for anything that's not immediately obvious how to use for the uninitiated?
   - [ ] Does everything that throws an exception document what can be thrown?
+  - [ ] Do type classes and functions with mathematical laws document the appropriate laws that they should follow?
   - [ ] Ensure that there is a statement of the code's purpose or utility.
   - [ ] Ensure that there is an example of how typically to use it, not just an abstract description of the API signature.
 - [ ] Do functions provide friendly interfaces to use?
