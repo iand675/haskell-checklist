@@ -6,7 +6,7 @@ If you look at half the code I write, I'm guilty of not following a lot of these
 
 If there's anything missing, or you don't agree with something, contributions are welcome!
 
-## Initial release checklist
+## Release checklist
 
 ### Code things
 - [ ] Do you have 1+ tests? Seriously, write at least one! The rest will usually come more easily after that.
@@ -27,6 +27,7 @@ If there's anything missing, or you don't agree with something, contributions ar
 - [ ] Ensure that the code is consistently formatted to your taste & linted.
 - [ ] Ensure that the code explicitly exports anything that should be publicly exposed.
 - [ ] Ensure that your functions are total.
+- [ ] If your code wants to log things, ensure they aren't being logged to stdout & stderr. Use a logging facility ([of which there are many!](http://hackage.haskell.org/packages/search?terms=logging)). This gives production users better flexibility in dealing with data in a way which suits them.
 
 ### Non-code things
 - [ ] Do you have CI set up for your project?
